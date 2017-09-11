@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="GB2312"?>
+<project name="test" default="begin" basedir=".\src\V_CM2002\Cmp_CM2002-WEB\F-CM2002">
+	<property name="build" value="${user.dir}" />
+	<!--JAVA编译时，是否包含调试信息-->
+	<property name="javac.debug" value="on" />
+	<property name="javac.optimize" value="on" />
+	<!--JAVA编译时，是否显示不赞成使用的语法-->
+	<property name="javac.deprecation" value="on" />
+	<!--JAVASOURCE所在路径-->
+	<property name="src" value="JavaSource" />
+	<!--编译后class文件存放路径-->
+	<property name="classes.path" value="WebContent\WEB-INF\classes" />
+
+	<!--编译使用的lib路径-->
+	<path id="build.classpath">
+		<fileset dir="WebContent\WEB-INF\lib">
+			<include name="*.jar" />
+			<include name="*.zip" />
+		</fileset>
+	</path>
+
+	<target name="begin">
+		<echo>sssss</echo>
+
+		    <antcall target="compile" />
+	</target>
+
+	<target name="compile">
+		<!--进行编译操作-->
+		<!--清除harvest所带来的文件-->
+		<delete>
+			<fileset dir="." includes="**/harvest.sig" />
+		</delete>
+		<delete>
+			<fileset dir="${src}" includes="**/*.class" />
+		</delete>
+		<delete>
+			<fileset dir="${src}" includes="**/*.db" />
+		</delete>
+		
+		<delete>
+			<fileset dir="${src}" includes="**/*.txt" />
+		</delete>
+		
+		<delete dir="${classes.path}" />
+		<mkdir dir="${classes.path}" />
+		<copy todir="${classes.path}">
+			<fileset dir="${src}" excludes="**/*.java" />
+		</copy>
+		<javac srcdir="${src}" includes="**" destdir="${classes.path}" debug="${javac.debug}" failonerror="true" optimize="${javac.optimize}"  encoding="GBK" >
+			<classpath refid="build.classpath" />
+			<compilerarg value="-g"/>
+
+		</javac>
+	</target>
+	
+	
+		<target name="copyctplib">
+		<copy todir="${build}\src\V_CM2002\Cmp_CM2002-WEB\F_CM2002\WebContent\WEB-INF\lib">
+			<fileset dir="D:\xilong\autodeploy\CM2002_ctp_lib" />
+		</copy>
+	 </target>
+	
+</project>
